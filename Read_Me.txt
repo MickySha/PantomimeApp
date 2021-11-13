@@ -1,0 +1,4 @@
+Pantomime Android App _______________________________________________________
+_____________________________________________________________________________
+
+This App is an educational android app to practice MVVM architecture.
