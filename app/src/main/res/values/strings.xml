@@ -6,4 +6,8 @@
     <string name="tv_welcome">Welcome</string>
     <string name="btn_start">Start</string>
     <string name="enter_your_new_word_here_hint">Enter Your New Word Here</string>
+    <string name="btn_start_timer_txt">START</string>
+    <string name="btn_add_word_txt">Add Word</string>
+    <string name="btn_wrong_txt">Wrong</string>
+    <string name="btn_correct_txt">Correct</string>
 </resources>
