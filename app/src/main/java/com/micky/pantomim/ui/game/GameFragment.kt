@@ -35,8 +35,10 @@ class GameFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         wordList= getWords ()
+        binding.tvTimer.text = wordList.size.toString()
 
         onClickFun()
+        showScore()
         nextWord()
     }
 
@@ -72,30 +74,40 @@ class GameFragment : Fragment() {
     }
 
     private fun wrongAnswerFun() {
+
+        if (counter <= (wordList.size) )
+            showScore()
+
         nextWord()
         stopTimerFun()
     }
 
     private fun correctAnswerFun() {
-        nextWord()
         stopTimerFun()
 
-        if (counter <= (wordList.size) -1) {
-
+        if (counter <= (wordList.size) ) {
             increaseScore()
+
+            if(counter == wordList.size)
+                counter ++
         }
+        nextWord()
     }
 
     private fun increaseScore() {
-        score++
-        binding.tvScore.text = score.toString()
+        ++score
+        showScore()
+    }
+
+    private fun showScore() {
+        binding.tvScore.text = "Points: ${score.toString()}/${counter}"
     }
 
     private fun nextWord() {
         if (counter <= (wordList.size) -1) {
-            myWord = wordList[counter]
-            counter ++
 
+            myWord = wordList[counter]
+            counter++
         }
 
         binding.tvPantomimeWord.text = myWord
