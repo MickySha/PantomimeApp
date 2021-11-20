@@ -10,4 +10,5 @@
     <string name="btn_add_word_txt">Add Word</string>
     <string name="btn_wrong_txt">Wrong</string>
     <string name="btn_correct_txt">Correct</string>
+    <string name="btn_finish">Finish</string>
 </resources>

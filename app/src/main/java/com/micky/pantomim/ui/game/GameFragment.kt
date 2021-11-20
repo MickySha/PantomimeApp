@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
+import com.micky.pantomim.R
 import com.micky.pantomim.databinding.FragmentGameBinding
 
 
@@ -63,6 +65,10 @@ class GameFragment : Fragment() {
         binding.btnWrong.setOnClickListener(View.OnClickListener {
             wrongAnswerFun()
         })
+
+        binding.btnFinish.setOnClickListener(View.OnClickListener {
+            openResultFragment ()
+        })
     }
 
     private fun startTimerFun() {
@@ -82,19 +88,15 @@ class GameFragment : Fragment() {
         if (counter <= (wordList.size) && !listFinished) {
             counter++
             showScore()
-
         }
+
         nextWord()
         stopTimerFun()
 
         if (counter == wordList.size) {
             listFinished = true
-            goResultFragment ()
+            binding.btnFinish.visibility = View.VISIBLE
         }
-    }
-
-    private fun goResultFragment() {
-        //ToDo
     }
 
     private fun correctAnswerFun() {
@@ -102,7 +104,6 @@ class GameFragment : Fragment() {
         if (counter <= (wordList.size)  && !listFinished) {
             counter++
             increaseScore()
-
         }
 
         nextWord()
@@ -110,7 +111,7 @@ class GameFragment : Fragment() {
 
         if (counter == wordList.size) {
             listFinished = true
-            goResultFragment ()
+            binding.btnFinish.visibility = View.VISIBLE
         }
     }
 
@@ -159,5 +160,9 @@ class GameFragment : Fragment() {
             "Clockwise",
             "Microbiology"
         )
+    }
+
+    private fun openResultFragment() {
+        findNavController().navigate(R.id.action_gameFragment_to_resultFragment)
     }
 }
