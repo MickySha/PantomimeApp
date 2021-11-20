@@ -17,9 +17,13 @@ class GameFragment : Fragment() {
 
     lateinit var binding: FragmentGameBinding
     var myWord: String = ""
+
     lateinit var wordList: MutableList<String>
+
     var counter =0
     var score = 0
+
+    var listFinished: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -75,23 +79,39 @@ class GameFragment : Fragment() {
 
     private fun wrongAnswerFun() {
 
-        if (counter <= (wordList.size) )
+        if (counter <= (wordList.size) && !listFinished) {
+            counter++
             showScore()
 
+        }
         nextWord()
         stopTimerFun()
+
+        if (counter == wordList.size) {
+            listFinished = true
+            goResultFragment ()
+        }
+    }
+
+    private fun goResultFragment() {
+        //ToDo
     }
 
     private fun correctAnswerFun() {
-        stopTimerFun()
 
-        if (counter <= (wordList.size) ) {
+        if (counter <= (wordList.size)  && !listFinished) {
+            counter++
             increaseScore()
 
-            if(counter == wordList.size)
-                counter ++
         }
+
         nextWord()
+        stopTimerFun()
+
+        if (counter == wordList.size) {
+            listFinished = true
+            goResultFragment ()
+        }
     }
 
     private fun increaseScore() {
@@ -107,7 +127,6 @@ class GameFragment : Fragment() {
         if (counter <= (wordList.size) -1) {
 
             myWord = wordList[counter]
-            counter++
         }
 
         binding.tvPantomimeWord.text = myWord
