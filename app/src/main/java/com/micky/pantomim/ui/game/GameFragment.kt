@@ -53,19 +53,15 @@ class GameFragment : Fragment() {
         binding.btnAddWord.setOnClickListener(View.OnClickListener {
             addNewWordFun()
         })
-
         binding.btnStartTimer.setOnClickListener(View.OnClickListener {
             startTimerFun()
         })
-
         binding.btnCorrect.setOnClickListener(View.OnClickListener {
             correctAnswerFun()
         })
-
         binding.btnWrong.setOnClickListener(View.OnClickListener {
             wrongAnswerFun()
         })
-
         binding.btnFinish.setOnClickListener(View.OnClickListener {
             openResultFragment ()
         })
@@ -129,7 +125,6 @@ class GameFragment : Fragment() {
 
             myWord = wordList[counter]
         }
-
         binding.tvPantomimeWord.text = myWord
     }
 
@@ -163,6 +158,7 @@ class GameFragment : Fragment() {
     }
 
     private fun openResultFragment() {
-        findNavController().navigate(R.id.action_gameFragment_to_resultFragment)
+        findNavController().navigate(
+            GameFragmentDirections.actionGameFragmentToResultFragment(score, counter))
     }
 }
