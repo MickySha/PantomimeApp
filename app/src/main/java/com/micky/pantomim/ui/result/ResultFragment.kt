@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.micky.pantomim.R
 import com.micky.pantomim.databinding.FragmentResultBinding
 
@@ -17,6 +18,9 @@ import com.micky.pantomim.databinding.FragmentResultBinding
 class ResultFragment : Fragment() {
 
     lateinit var binding: FragmentResultBinding
+
+    var finalScore = 0
+    var finalCounter = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,6 +35,27 @@ class ResultFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        onClickFun()
+        getArgumentsFun()
+        showFinalScore()
+    }
 
+    private fun onClickFun() {
+        binding.btnPlayAgain.setOnClickListener(View.OnClickListener {
+            openStartFragment()
+        })
+    }
+
+    private fun getArgumentsFun() {
+        finalCounter = ResultFragmentArgs.fromBundle(requireArguments()).counter
+        finalScore   = ResultFragmentArgs.fromBundle(requireArguments()).score
+    }
+
+    private fun showFinalScore() {
+        binding.tvFinalScore.text = "$finalScore from $finalCounter"
+    }
+
+    private fun openStartFragment() {
+        findNavController().navigateUp()
     }
 }
