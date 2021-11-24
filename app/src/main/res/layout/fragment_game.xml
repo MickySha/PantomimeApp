@@ -12,9 +12,9 @@
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:textSize="20sp"
-        android:layout_marginTop="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/tv_timer"
+        app:layout_constraintEnd_toEndOf="@+id/tv_word_is"
+        app:layout_constraintStart_toStartOf="@+id/tv_word_is"
         app:layout_constraintTop_toBottomOf="@+id/tv_word_is"
         tools:text="Samurai" />
 
@@ -25,32 +25,33 @@
         android:padding="5dp"
         android:text="Your Word Is:"
         android:textSize="20sp"
-        android:layout_marginTop="50dp"
+        app:layout_constraintBottom_toTopOf="@+id/tv_pantomime_word"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="spread" />
 
     <TextView
         android:id="@+id/tv_timer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="75dp"
         android:padding="5dp"
+        android:text="00:00"
         android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_pantomime_word"
-        android:text="00:00" />
+        app:layout_constraintBottom_toTopOf="@+id/tv_score"
+        app:layout_constraintEnd_toEndOf="@+id/tv_pantomime_word"
+        app:layout_constraintStart_toStartOf="@+id/tv_pantomime_word"
+        app:layout_constraintTop_toBottomOf="@+id/tv_pantomime_word" />
 
     <TextView
         android:id="@+id/tv_score"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:textSize="20sp"
         android:padding="5dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_start_timer"
+        app:layout_constraintEnd_toEndOf="@+id/tv_timer"
+        app:layout_constraintStart_toStartOf="@+id/tv_timer"
         app:layout_constraintTop_toBottomOf="@+id/tv_timer"
         tools:text="20 Points" />
 
@@ -80,12 +81,12 @@
         android:id="@+id/btn_finish"
         android:layout_width="100dp"
         android:layout_height="40dp"
-        android:layout_margin="15dp"
         android:text="@string/btn_finish"
         android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btn_correct"
-        app:layout_constraintStart_toEndOf="@+id/btn_wrong" />
+        app:layout_constraintBottom_toBottomOf="@+id/btn_wrong"
+        app:layout_constraintEnd_toStartOf="@+id/btn_add_word"
+        app:layout_constraintStart_toEndOf="@+id/btn_start_timer"
+        app:layout_constraintTop_toTopOf="@+id/btn_add_word" />
 
     <Button
         android:id="@+id/btn_correct"
