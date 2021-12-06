@@ -67,6 +67,23 @@ class GameFragment : Fragment() {
         })
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+
+        outState.putInt("SCORE", score)
+        outState.putInt("COUNTER", counter)
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+
+        score   = savedInstanceState?.getInt("SCORE", 0) ?: 0
+        counter = savedInstanceState?.getInt("COUNTER", 0) ?: 0
+
+        showScore()
+        nextWord()
+    }
+
     private fun startTimerFun() {
         //TODO("Not yet implemented")
     }
