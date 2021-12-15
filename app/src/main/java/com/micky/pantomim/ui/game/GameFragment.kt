@@ -5,8 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.micky.pantomim.R
 import com.micky.pantomim.databinding.FragmentGameBinding
 
 
@@ -19,6 +19,8 @@ class GameFragment : Fragment() {
 
     lateinit var binding: FragmentGameBinding
     var myWord: String = ""
+
+    lateinit var viewModel: GameViewModel
 
     lateinit var wordList: MutableList<String>
 
@@ -33,6 +35,8 @@ class GameFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentGameBinding.inflate(inflater)
+
+        viewModel = ViewModelProvider(this).get(GameViewModel::class.java)
 
         return binding.root
     }
