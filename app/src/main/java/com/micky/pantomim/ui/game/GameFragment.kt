@@ -142,6 +142,10 @@ class GameFragment : Fragment() {
 
             myWord = wordList[counter]
         }
+        showPantomimeWord()
+    }
+
+    private fun showPantomimeWord() {
         binding.tvPantomimeWord.text = myWord
     }
 
