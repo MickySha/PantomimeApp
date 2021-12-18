@@ -18,16 +18,9 @@ import com.micky.pantomim.databinding.FragmentGameBinding
 class GameFragment : Fragment() {
 
     lateinit var binding: FragmentGameBinding
-    var myWord: String = ""
 
     lateinit var viewModel: GameViewModel
 
-    lateinit var wordList: MutableList<String>
-
-    var counter =0
-    var score = 0
-
-    var listFinished: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,146 +37,87 @@ class GameFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        wordList= getWords ()
-        binding.tvTimer.text = wordList.size.toString()
+        viewModel.getWords ()
+
+        binding.tvTimer.text = viewModel.wordList.size.toString()
 
         onClickFun()
         showScore()
-        nextWord()
+
+        viewModel.nextWord()
+        showPantomimeWord()
     }
 
     private fun onClickFun() {
 
         binding.btnAddWord.setOnClickListener(View.OnClickListener {
-            addNewWordFun()
+            viewModel.addNewWordFun()
         })
+
         binding.btnStartTimer.setOnClickListener(View.OnClickListener {
-            startTimerFun()
+            viewModel.timerFun()
         })
+
         binding.btnCorrect.setOnClickListener(View.OnClickListener {
-            correctAnswerFun()
+            viewModel.correctAnswerFun()
+
+            showPantomimeWord()
+            showScore()
+
+            finishBtnVisibility()
         })
+
         binding.btnWrong.setOnClickListener(View.OnClickListener {
-            wrongAnswerFun()
+            viewModel.wrongAnswerFun()
+
+            showPantomimeWord()
+            showScore()
+
+            finishBtnVisibility()
         })
+
         binding.btnFinish.setOnClickListener(View.OnClickListener {
             openResultFragment ()
         })
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-
-        outState.putInt("SCORE", score)
-        outState.putInt("COUNTER", counter)
-    }
-
-    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        super.onViewStateRestored(savedInstanceState)
-
-        score   = savedInstanceState?.getInt("SCORE", 0) ?: 0
-        counter = savedInstanceState?.getInt("COUNTER", 0) ?: 0
-
-        showScore()
-        nextWord()
-    }
-
-    private fun startTimerFun() {
-        //TODO("Not yet implemented")
-    }
-
-    private fun stopTimerFun() {
-        //TODO("Not yet implemented")
-    }
-
-    private fun addNewWordFun() {
-       //TODO("Not yet implemented")
-    }
-
-    private fun wrongAnswerFun() {
-
-        if (counter <= (wordList.size) && !listFinished) {
-            counter++
-            showScore()
-        }
-
-        nextWord()
-        stopTimerFun()
-
-        if (counter == wordList.size) {
-            listFinished = true
-            binding.btnFinish.visibility = View.VISIBLE
-        }
-    }
-
-    private fun correctAnswerFun() {
-
-        if (counter <= (wordList.size)  && !listFinished) {
-            counter++
-            increaseScore()
-        }
-
-        nextWord()
-        stopTimerFun()
-
-        if (counter == wordList.size) {
-            listFinished = true
-            binding.btnFinish.visibility = View.VISIBLE
-        }
-    }
-
-    private fun increaseScore() {
-        ++score
-        showScore()
-    }
 
     private fun showScore() {
-        binding.tvScore.text = "Points: ${score.toString()}/${counter}"
+        binding.tvScore.text = "Points: ${viewModel.score.toString()}/${viewModel.counter}"
     }
 
-    private fun nextWord() {
-        if (counter <= (wordList.size) -1) {
+    private fun finishBtnVisibility() {
 
-            myWord = wordList[counter]
-        }
-        showPantomimeWord()
+        if (viewModel.listFinished)
+            binding.btnFinish.visibility = View.VISIBLE
     }
 
     private fun showPantomimeWord() {
-        binding.tvPantomimeWord.text = myWord
-    }
-
-    private fun getWords(): MutableList<String> {
-
-        return mutableListOf(
-            "Lake",
-            "Sea",
-            "Ocean",
-            "Nature",
-            "Assistant",
-            "Access",
-            "Delivery",
-            "Grammar",
-            "Luxury",
-            "Fake",
-            "Pizza Tower",
-            "Plankton",
-            "Timer",
-            "Sticker",
-            "Comment",
-            "Confirm",
-            "Duel",
-            "Farm",
-            "Tractor",
-            "Track",
-            "Pace",
-            "Clockwise",
-            "Microbiology"
-        )
+        binding.tvPantomimeWord.text = viewModel.myWord
     }
 
     private fun openResultFragment() {
         findNavController().navigate(
-            GameFragmentDirections.actionGameFragmentToResultFragment(score, counter))
+            GameFragmentDirections.actionGameFragmentToResultFragment(viewModel.score, viewModel.counter))
     }
-}
+
+
+//    override fun onSaveInstanceState(outState: Bundle) {
+//        super.onSaveInstanceState(outState)
+//
+//        outState.putInt("SCORE", score)
+//        outState.putInt("COUNTER", counter)
+//    }
+//
+//    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+//        super.onViewStateRestored(savedInstanceState)
+//
+//        score   = savedInstanceState?.getInt("SCORE", 0) ?: 0
+//        counter = savedInstanceState?.getInt("COUNTER", 0) ?: 0
+//
+//        showScore()
+//        nextWord()
+//    }
+
+
+} // end of Class
