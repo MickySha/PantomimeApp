@@ -46,6 +46,8 @@ class GameFragment : Fragment() {
 
         viewModel.nextWord()
         showPantomimeWord()
+
+        finishBtnVisibility()
     }
 
     private fun onClickFun() {
