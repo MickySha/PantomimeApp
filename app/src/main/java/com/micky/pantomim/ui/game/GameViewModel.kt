@@ -1,5 +1,6 @@
 package com.micky.pantomim.ui.game
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
@@ -7,13 +8,25 @@ class GameViewModel: ViewModel() {
 
     lateinit var wordList: MutableList<String>
 
-    val startFlag  = MutableLiveData <Boolean> (false)
-    val listFinish = MutableLiveData <Boolean> (false)
+    private val _startFlag = MutableLiveData <Boolean> (false)
+    val startFlag: LiveData<Boolean>
+        get() = _startFlag
 
-    val counter    = MutableLiveData <Int> (0)
-    val score      = MutableLiveData <Int> (0)
+    private val _listFinish = MutableLiveData <Boolean> (false)
+    val listFinish: LiveData<Boolean>
+        get() = _listFinish
 
-    val myWord     = MutableLiveData <String> ()
+    private val _counter = MutableLiveData <Int> (0)
+    val counter: LiveData<Int>
+        get() = _counter
+
+    private val _score = MutableLiveData<Int>(0)
+    val score: LiveData<Int>
+        get() = _score
+
+    private val _myWord = MutableLiveData <String> ()
+    val myWord: LiveData<String>
+        get() = _myWord
 
     fun getWords() {
 
@@ -45,15 +58,15 @@ class GameViewModel: ViewModel() {
     }
 
     private fun increaseScore() {
-        score.value = score.value?.plus(1)
+        _score.value = _score.value?.plus(1)
     }
 
     fun nextWord() {
         if (counter.value!! <= (wordList.size) -1)
-            myWord.value = wordList[counter.value!!]
+            _myWord.value = wordList[counter.value!!]
 
         if (counter.value == wordList.size)
-            listFinish.value = true
+            _listFinish.value = true
     }
 
     fun timerFun() {
@@ -79,7 +92,7 @@ class GameViewModel: ViewModel() {
 
         if (counter.value!! <= (wordList.size) && !listFinish.value!!) {
 
-            counter.value = counter.value?.plus(1)
+            _counter.value = _counter.value?.plus(1)
         }
 
         nextWord()
@@ -90,7 +103,7 @@ class GameViewModel: ViewModel() {
 
         if (counter.value!! <= (wordList.size)  && !listFinish.value!!) {
 
-            counter.value = counter.value?.plus(1)
+            _counter.value = _counter.value?.plus(1)
             increaseScore()
         }
 
