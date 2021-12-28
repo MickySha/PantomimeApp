@@ -42,13 +42,18 @@ class GameFragment : Fragment() {
         binding.tvTimer.text = viewModel.wordList.size.toString()
 
         onClickFun()
-        showScore()
 
         viewModel.nextWord()
+
+        observeLiveData()
+
+        showScore()
+
         showPantomimeWord()
 
         finishBtnVisibility()
     }
+
 
     private fun onClickFun() {
 
@@ -62,20 +67,10 @@ class GameFragment : Fragment() {
 
         binding.btnCorrect.setOnClickListener(View.OnClickListener {
             viewModel.correctAnswerFun()
-
-            showPantomimeWord()
-            showScore()
-
-            finishBtnVisibility()
         })
 
         binding.btnWrong.setOnClickListener(View.OnClickListener {
             viewModel.wrongAnswerFun()
-
-            showPantomimeWord()
-            showScore()
-
-            finishBtnVisibility()
         })
 
         binding.btnFinish.setOnClickListener(View.OnClickListener {
@@ -83,24 +78,43 @@ class GameFragment : Fragment() {
         })
     }
 
+    private fun observeLiveData() {
+
+        viewModel.score.observe(viewLifecycleOwner) {
+            showScore()
+        }
+
+        viewModel.counter.observe(viewLifecycleOwner) {
+            showScore()
+        }
+
+        viewModel.listFinish.observe(viewLifecycleOwner) {
+            finishBtnVisibility()
+        }
+
+        viewModel.myWord.observe(viewLifecycleOwner) {
+            showPantomimeWord()
+        }
+    }
 
     private fun showScore() {
-        binding.tvScore.text = "Points: ${viewModel.score.toString()}/${viewModel.counter}"
+        binding.tvScore.text =
+            "Points: ${viewModel.score.value.toString()}/${viewModel.counter.value.toString()}"
     }
 
     private fun finishBtnVisibility() {
-
-        if (viewModel.listFinished)
+        if (viewModel.listFinish.value == true)
             binding.btnFinish.visibility = View.VISIBLE
     }
 
     private fun showPantomimeWord() {
-        binding.tvPantomimeWord.text = viewModel.myWord
+        binding.tvPantomimeWord.text = viewModel.myWord.value.toString()
     }
 
     private fun openResultFragment() {
         findNavController().navigate(
-            GameFragmentDirections.actionGameFragmentToResultFragment(viewModel.score, viewModel.counter))
+            GameFragmentDirections.actionGameFragmentToResultFragment(
+                viewModel.score.value?:0, viewModel.counter.value?:0))
     }
 
 

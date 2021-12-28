@@ -1,19 +1,19 @@
 package com.micky.pantomim.ui.game
 
-import android.view.View
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class GameViewModel: ViewModel() {
 
     lateinit var wordList: MutableList<String>
 
-    var startedFlag  = false
-    var listFinished = false
+    val startFlag  = MutableLiveData <Boolean> (false)
+    val listFinish = MutableLiveData <Boolean> (false)
 
-    var counter = 0
-    var score = 0
+    val counter    = MutableLiveData <Int> (0)
+    val score      = MutableLiveData <Int> (0)
 
-    var myWord: String = ""
+    val myWord     = MutableLiveData <String> ()
 
     fun getWords() {
 
@@ -44,20 +44,20 @@ class GameViewModel: ViewModel() {
         )
     }
 
-    fun increaseScore() {
-        ++score
+    private fun increaseScore() {
+        score.value = score.value?.plus(1)
     }
 
     fun nextWord() {
-        if (counter <= (wordList.size) -1)
-            myWord = wordList[counter]
+        if (counter.value!! <= (wordList.size) -1)
+            myWord.value = wordList[counter.value!!]
 
-        if (counter == wordList.size)
-            listFinished = true
+        if (counter.value == wordList.size)
+            listFinish.value = true
     }
 
     fun timerFun() {
-        if (!startedFlag)
+        if (!startFlag.value!!)
             startTimerFun()
         else
             stopTimerFun()
@@ -77,8 +77,9 @@ class GameViewModel: ViewModel() {
 
     fun wrongAnswerFun() {
 
-        if (counter <= (wordList.size) && !listFinished) {
-            counter++
+        if (counter.value!! <= (wordList.size) && !listFinish.value!!) {
+
+            counter.value = counter.value?.plus(1)
         }
 
         nextWord()
@@ -87,8 +88,9 @@ class GameViewModel: ViewModel() {
 
     fun correctAnswerFun() {
 
-        if (counter <= (wordList.size)  && !listFinished) {
-            counter++
+        if (counter.value!! <= (wordList.size)  && !listFinish.value!!) {
+
+            counter.value = counter.value?.plus(1)
             increaseScore()
         }
 
