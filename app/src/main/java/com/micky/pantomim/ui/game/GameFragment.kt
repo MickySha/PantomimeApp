@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.micky.pantomim.R
 import com.micky.pantomim.databinding.FragmentGameBinding
 
 
@@ -38,8 +39,6 @@ class GameFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.getWords ()
-
-        binding.tvTimer.text = viewModel.wordList.size.toString()
 
         onClickFun()
 
@@ -94,6 +93,26 @@ class GameFragment : Fragment() {
 
         viewModel.myWord.observe(viewLifecycleOwner) {
             showPantomimeWord()
+        }
+
+        viewModel.startTimerFlag.observe(viewLifecycleOwner) {
+            timerBtnFun()
+        }
+
+        viewModel.currentTime.observe(viewLifecycleOwner) {
+            binding.tvTimer.setText((viewModel.currentTime.value?.div(1000)).toString())
+        }
+
+    }
+
+    private fun timerBtnFun() {
+        if (viewModel.startTimerFlag.value == false) {
+
+            binding.btnStartTimer.setText(getString(R.string.btn_start_timer_txt))
+            binding.tvTimer.setText("10")
+        }
+        else {
+            binding.btnStartTimer.setText(getString(R.string.btn_stop_timer_txt))
         }
     }
 

@@ -1,5 +1,6 @@
 package com.micky.pantomim.ui.game
 
+import android.os.CountDownTimer
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,9 +9,9 @@ class GameViewModel: ViewModel() {
 
     lateinit var wordList: MutableList<String>
 
-    private val _startFlag = MutableLiveData <Boolean> (false)
-    val startFlag: LiveData<Boolean>
-        get() = _startFlag
+    private val _startTimerFlag = MutableLiveData <Boolean> (false)
+    val startTimerFlag: LiveData<Boolean>
+        get() = _startTimerFlag
 
     private val _listFinish = MutableLiveData <Boolean> (false)
     val listFinish: LiveData<Boolean>
@@ -27,6 +28,12 @@ class GameViewModel: ViewModel() {
     private val _myWord = MutableLiveData <String> ()
     val myWord: LiveData<String>
         get() = _myWord
+
+    private val _currentTime = MutableLiveData <Long> (10)
+    val currentTime: LiveData<Long>
+        get() = _currentTime
+
+    private lateinit var timer: CountDownTimer
 
     fun getWords() {
 
@@ -70,18 +77,40 @@ class GameViewModel: ViewModel() {
     }
 
     fun timerFun() {
-        if (!startFlag.value!!)
+
+        if (!startTimerFlag.value!!) {
             startTimerFun()
-        else
+        }
+
+        else {
             stopTimerFun()
+        }
     }
 
-    fun startTimerFun() {
-        //TODO("Not yet implemented")
+    private fun startTimerFun() {
+
+        _startTimerFlag.value = true
+
+        timer = object: CountDownTimer (10_000, 1000){
+
+            override fun onTick(time: Long) {
+
+                _currentTime.value = time
+            }
+
+            override fun onFinish() {
+                stopTimerFun()
+            }
+
+        }
+
+        timer.start()
     }
 
     fun stopTimerFun() {
-        //TODO("Not yet implemented")
+
+        _startTimerFlag.value = false
+        timer.cancel()
     }
 
     fun addNewWordFun() {
