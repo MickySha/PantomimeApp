@@ -1,6 +1,7 @@
 package com.micky.pantomim.ui.game
 
 import android.os.CountDownTimer
+import android.text.format.DateUtils
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -32,6 +33,10 @@ class GameViewModel: ViewModel() {
     private val _currentTime = MutableLiveData <Long> (10)
     val currentTime: LiveData<Long>
         get() = _currentTime
+
+    private val _formatCurrentTime = MutableLiveData <String> ()
+    val formatCurrentTime: LiveData<String>
+        get() = _formatCurrentTime
 
     private lateinit var timer: CountDownTimer
 
@@ -96,6 +101,8 @@ class GameViewModel: ViewModel() {
             override fun onTick(time: Long) {
 
                 _currentTime.value = time
+
+                formatTime(time)
             }
 
             override fun onFinish() {
@@ -105,6 +112,11 @@ class GameViewModel: ViewModel() {
         }
 
         timer.start()
+    }
+
+    private fun formatTime (timer: Long) {
+
+        _formatCurrentTime.value = DateUtils.formatElapsedTime(timer/1000)
     }
 
     fun stopTimerFun() {

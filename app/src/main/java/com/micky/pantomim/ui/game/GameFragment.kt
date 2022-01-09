@@ -99,8 +99,8 @@ class GameFragment : Fragment() {
             timerBtnFun()
         }
 
-        viewModel.currentTime.observe(viewLifecycleOwner) {
-            binding.tvTimer.setText((viewModel.currentTime.value?.div(1000)).toString())
+        viewModel.formatCurrentTime.observe(viewLifecycleOwner) {
+            binding.tvTimer.setText(viewModel.formatCurrentTime.value?.toString())
         }
 
     }
@@ -109,7 +109,7 @@ class GameFragment : Fragment() {
         if (viewModel.startTimerFlag.value == false) {
 
             binding.btnStartTimer.setText(getString(R.string.btn_start_timer_txt))
-            binding.tvTimer.setText("10")
+            binding.tvTimer.setText("00:10")
         }
         else {
             binding.btnStartTimer.setText(getString(R.string.btn_stop_timer_txt))
