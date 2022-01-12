@@ -73,6 +73,8 @@ class GameFragment : Fragment() {
         })
 
         binding.btnFinish.setOnClickListener(View.OnClickListener {
+
+            viewModel.stopTimerFun()
             openResultFragment ()
         })
     }
@@ -131,6 +133,7 @@ class GameFragment : Fragment() {
     }
 
     private fun openResultFragment() {
+
         findNavController().navigate(
             GameFragmentDirections.actionGameFragmentToResultFragment(
                 viewModel.score.value?:0, viewModel.counter.value?:0))
