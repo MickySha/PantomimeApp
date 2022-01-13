@@ -38,17 +38,19 @@ class GameFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //two important factor that we should add for data binding (below)
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
+
         viewModel.getWords ()
 
         onClickFun()
 
+        showScore()
+
         viewModel.nextWord()
 
         observeLiveData()
-
-        showScore()
-
-        showPantomimeWord()
 
         finishBtnVisibility()
     }
@@ -56,9 +58,9 @@ class GameFragment : Fragment() {
 
     private fun onClickFun() {
 
-        binding.btnAddWord.setOnClickListener(View.OnClickListener {
-            viewModel.addNewWordFun()
-        })
+//        binding.btnAddWord.setOnClickListener(View.OnClickListener {
+//            viewModel.addNewWordFun()
+//        })
 
         binding.btnStartTimer.setOnClickListener(View.OnClickListener {
             viewModel.timerFun()
@@ -93,18 +95,14 @@ class GameFragment : Fragment() {
             finishBtnVisibility()
         }
 
-        viewModel.myWord.observe(viewLifecycleOwner) {
-            showPantomimeWord()
-        }
-
         viewModel.startTimerFlag.observe(viewLifecycleOwner) {
             timerBtnFun()
         }
+    }
 
-        viewModel.formatCurrentTime.observe(viewLifecycleOwner) {
-            binding.tvTimer.setText(viewModel.formatCurrentTime.value?.toString())
-        }
-
+    private fun showScore() {
+        binding.tvScore.text =
+            "Points: ${viewModel.score.value.toString()}/${viewModel.counter.value.toString()}"
     }
 
     private fun timerBtnFun() {
@@ -118,18 +116,9 @@ class GameFragment : Fragment() {
         }
     }
 
-    private fun showScore() {
-        binding.tvScore.text =
-            "Points: ${viewModel.score.value.toString()}/${viewModel.counter.value.toString()}"
-    }
-
     private fun finishBtnVisibility() {
         if (viewModel.listFinish.value == true)
             binding.btnFinish.visibility = View.VISIBLE
-    }
-
-    private fun showPantomimeWord() {
-        binding.tvPantomimeWord.text = viewModel.myWord.value.toString()
     }
 
     private fun openResultFragment() {
@@ -139,23 +128,6 @@ class GameFragment : Fragment() {
                 viewModel.score.value?:0, viewModel.counter.value?:0))
     }
 
-
-//    override fun onSaveInstanceState(outState: Bundle) {
-//        super.onSaveInstanceState(outState)
-//
-//        outState.putInt("SCORE", score)
-//        outState.putInt("COUNTER", counter)
-//    }
-//
-//    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-//        super.onViewStateRestored(savedInstanceState)
-//
-//        score   = savedInstanceState?.getInt("SCORE", 0) ?: 0
-//        counter = savedInstanceState?.getInt("COUNTER", 0) ?: 0
-//
-//        showScore()
-//        nextWord()
-//    }
 
 
 } // end of Class

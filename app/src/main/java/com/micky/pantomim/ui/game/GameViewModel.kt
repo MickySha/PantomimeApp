@@ -30,10 +30,6 @@ class GameViewModel: ViewModel() {
     val myWord: LiveData<String>
         get() = _myWord
 
-    private val _currentTime = MutableLiveData <Long> (10)
-    val currentTime: LiveData<Long>
-        get() = _currentTime
-
     private val _formatCurrentTime = MutableLiveData <String> ()
     val formatCurrentTime: LiveData<String>
         get() = _formatCurrentTime
@@ -100,15 +96,12 @@ class GameViewModel: ViewModel() {
 
             override fun onTick(time: Long) {
 
-                _currentTime.value = time
-
                 formatTime(time)
             }
 
             override fun onFinish() {
                 stopTimerFun()
             }
-
         }
 
         timer.start()
@@ -121,8 +114,11 @@ class GameViewModel: ViewModel() {
 
     fun stopTimerFun() {
 
-        _startTimerFlag.value = false
-        timer.cancel()
+        if ((_formatCurrentTime.value != null) && (_formatCurrentTime.value != "")) {
+
+            _startTimerFlag.value = false
+            timer.cancel()
+        }
     }
 
     fun addNewWordFun() {
