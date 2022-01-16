@@ -46,8 +46,6 @@ class GameFragment : Fragment() {
 
         onClickFun()
 
-        showScore()
-
         viewModel.nextWord()
 
         observeLiveData()
@@ -83,14 +81,6 @@ class GameFragment : Fragment() {
 
     private fun observeLiveData() {
 
-        viewModel.score.observe(viewLifecycleOwner) {
-            showScore()
-        }
-
-        viewModel.counter.observe(viewLifecycleOwner) {
-            showScore()
-        }
-
         viewModel.listFinish.observe(viewLifecycleOwner) {
             finishBtnVisibility()
         }
@@ -98,11 +88,6 @@ class GameFragment : Fragment() {
         viewModel.startTimerFlag.observe(viewLifecycleOwner) {
             timerBtnFun()
         }
-    }
-
-    private fun showScore() {
-        binding.tvScore.text =
-            "Points: ${viewModel.score.value.toString()}/${viewModel.counter.value.toString()}"
     }
 
     private fun timerBtnFun() {
@@ -127,7 +112,5 @@ class GameFragment : Fragment() {
             GameFragmentDirections.actionGameFragmentToResultFragment(
                 viewModel.score.value?:0, viewModel.counter.value?:0))
     }
-
-
 
 } // end of Class

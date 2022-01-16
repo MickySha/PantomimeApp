@@ -21,12 +21,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
+            android:text="@{viewModel.myWord}"
             android:textSize="23sp"
             app:layout_constraintBottom_toTopOf="@+id/tv_timer"
             app:layout_constraintEnd_toEndOf="@+id/tv_word_is"
             app:layout_constraintStart_toStartOf="@+id/tv_word_is"
-            app:layout_constraintTop_toBottomOf="@+id/tv_word_is"
-            tools:text="@{viewModel.myWord}" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_word_is" />
 
         <TextView
             android:id="@+id/tv_word_is"
@@ -58,6 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
+            android:text="@{viewModel.score.toString() + ' ' + '/' + ' ' + viewModel.counter.toString()}"
             android:textSize="23sp"
             app:layout_constraintBottom_toTopOf="@+id/btn_start_timer"
             app:layout_constraintEnd_toEndOf="@+id/tv_timer"
