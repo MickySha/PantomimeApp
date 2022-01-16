@@ -22,7 +22,6 @@ class GameFragment : Fragment() {
 
     lateinit var viewModel: GameViewModel
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -52,7 +51,6 @@ class GameFragment : Fragment() {
 
         finishBtnVisibility()
     }
-
 
     private fun onClickFun() {
 

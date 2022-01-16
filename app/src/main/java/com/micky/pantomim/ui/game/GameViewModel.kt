@@ -34,6 +34,11 @@ class GameViewModel: ViewModel() {
     val formatCurrentTime: LiveData<String>
         get() = _formatCurrentTime
 
+    private val _currentTime = MutableLiveData <Long> (10)
+    val currentTime: LiveData<Long>
+        get() = _currentTime
+
+
     private lateinit var timer: CountDownTimer
 
     fun getWords() {
@@ -97,6 +102,8 @@ class GameViewModel: ViewModel() {
             override fun onTick(time: Long) {
 
                 formatTime(time)
+
+                _currentTime.value = time
             }
 
             override fun onFinish() {
