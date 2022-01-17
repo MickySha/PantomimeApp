@@ -1,6 +1,10 @@
 package com.micky.pantomim.ui.game
 
+import android.content.Context
+import android.os.Build
 import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -85,6 +89,21 @@ class GameFragment : Fragment() {
 
         viewModel.startTimerFlag.observe(viewLifecycleOwner) {
             timerBtnFun()
+        }
+
+        viewModel.vibratePattern.observe(viewLifecycleOwner) {
+            vibrateFun(it.pattern)
+        }
+    }
+
+    private fun vibrateFun(pattern: LongArray) {
+
+        val vibratorManager = requireActivity().getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            vibratorManager.vibrate(VibrationEffect.createWaveform(pattern, -1))
+        } else {
+            vibratorManager.vibrate(pattern, -1)
         }
     }
 

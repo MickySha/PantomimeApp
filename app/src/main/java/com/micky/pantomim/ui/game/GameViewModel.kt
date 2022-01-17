@@ -38,6 +38,9 @@ class GameViewModel: ViewModel() {
     val currentTime: LiveData<Long>
         get() = _currentTime
 
+    private val _vibratePattern = MutableLiveData (BuzzType.NO_VIBRATE)
+    val vibratePattern: LiveData<BuzzType>
+        get() = _vibratePattern
 
     private lateinit var timer: CountDownTimer
 
@@ -104,6 +107,10 @@ class GameViewModel: ViewModel() {
                 formatTime(time)
 
                 _currentTime.value = time
+
+                if (time < 4000) {
+                    _vibratePattern.value = BuzzType.PANIC_VIBRATE
+                }
             }
 
             override fun onFinish() {
@@ -125,6 +132,8 @@ class GameViewModel: ViewModel() {
 
             _startTimerFlag.value = false
             timer.cancel()
+
+            _vibratePattern.value = BuzzType.GAME_OVER_VIBRATE
         }
     }
 
@@ -149,6 +158,8 @@ class GameViewModel: ViewModel() {
 
             _counter.value = _counter.value?.plus(1)
             increaseScore()
+
+            _vibratePattern.value = BuzzType.CORRECT_VIBRATE
         }
 
         nextWord()
