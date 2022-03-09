@@ -13,4 +13,5 @@
     <string name="btn_finish">Finish</string>
     <string name="btn_play_again">Play Again</string>
     <string name="btn_stop_timer_txt">STOP</string>
+    <string name="your_word_is">Your Word Is:</string>
 </resources>

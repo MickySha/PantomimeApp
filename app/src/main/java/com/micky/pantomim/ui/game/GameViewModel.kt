@@ -38,7 +38,7 @@ class GameViewModel: ViewModel() {
     val currentTime: LiveData<Long>
         get() = _currentTime
 
-    private val _vibratePattern = MutableLiveData (BuzzType.NO_VIBRATE)
+    private val _vibratePattern = MutableLiveData <BuzzType> (BuzzType.NO_VIBRATE)
     val vibratePattern: LiveData<BuzzType>
         get() = _vibratePattern
 
@@ -71,10 +71,6 @@ class GameViewModel: ViewModel() {
             "Clockwise",
             "Microbiology"
         )
-    }
-
-    private fun increaseScore() {
-        _score.value = _score.value?.plus(1)
     }
 
     fun nextWord() {
@@ -131,6 +127,7 @@ class GameViewModel: ViewModel() {
         if ((_formatCurrentTime.value != null) && (_formatCurrentTime.value != "")) {
 
             _startTimerFlag.value = false
+
             timer.cancel()
 
             _vibratePattern.value = BuzzType.GAME_OVER_VIBRATE
@@ -145,7 +142,7 @@ class GameViewModel: ViewModel() {
 
         if (counter.value!! <= (wordList.size) && !listFinish.value!!) {
 
-            _counter.value = _counter.value?.plus(1)
+            increaseCounter()
         }
 
         nextWord()
@@ -156,7 +153,7 @@ class GameViewModel: ViewModel() {
 
         if (counter.value!! <= (wordList.size)  && !listFinish.value!!) {
 
-            _counter.value = _counter.value?.plus(1)
+            increaseCounter()
             increaseScore()
 
             _vibratePattern.value = BuzzType.CORRECT_VIBRATE
@@ -164,5 +161,13 @@ class GameViewModel: ViewModel() {
 
         nextWord()
         stopTimerFun()
+    }
+
+    private fun increaseScore() {
+        _score.value = _score.value?.plus(1)
+    }
+
+    private fun increaseCounter() {
+        _counter.value = _counter.value?.plus(1)
     }
 }
